@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 type CellState = {
   isMine: boolean;
@@ -249,24 +251,43 @@ export default function Buscaminas() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 flex items-center justify-center p-5">
+    <div className="min-h-screen bg-[#F2F6F9] flex items-center justify-center p-5">
       <div className="max-w-4xl w-full">
         {/* Header */}
         <div className="text-center mb-6">
-          <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
-            💣 Buscaminas
+          <h1 className="text-6xl font-bold text-black mb-4 inline">
+            <Image
+              src="/buscaminas.png"
+              width={100}
+              height={100}
+              alt="Memorama Logo"
+              style={{
+                marginRight: "2rem",
+                verticalAlign: "middle",
+                display: "inline-block",
+              }}
+            />{" "}
+            BUSCAMINAS
           </h1>
+        </div>
+        {/* Instructions */}
+        <div className="mt-6 bg-white/10 backdrop-blur-sm rounded-xl p-4 text-black text-center">
+          <p className="text-sm">
+            <strong>Cómo jugar:</strong> Click izquierdo para revelar. Click
+            derecho para marcar con bandera 🚩. Evita las minas 💣 y revela
+            todas las casillas seguras para ganar.
+          </p>
         </div>
 
         {/* Controls */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-6">
+        <div className="bg-blue-100 backdrop-blur-sm rounded-2xl p-6 mb-6 flex flex-col gap-8 content-space-around flex-wrap">
           <div className="grid grid-cols-3 gap-4 mb-4">
             <button
               onClick={() => setDifficulty("facil")}
-              className={`py-3 px-4 rounded-xl font-bold transition-all ${
+              className={`py-3 px-4 rounded-xl font-bold  transition-all ${
                 difficulty === "facil"
-                  ? "bg-green-500 text-white shadow-lg scale-105"
-                  : "bg-white/20 text-white hover:bg-white/30"
+                  ? "bg-blue-600 text-white scale-105"
+                  : "bg-green-500 text-white"
               }`}
             >
               Fácil
@@ -277,8 +298,8 @@ export default function Buscaminas() {
               onClick={() => setDifficulty("medio")}
               className={`py-3 px-4 rounded-xl font-bold transition-all ${
                 difficulty === "medio"
-                  ? "bg-yellow-500 text-white shadow-lg scale-105"
-                  : "bg-white/20 text-white hover:bg-white/30"
+                  ? "bg-blue-500 text-white shadow-lg scale-105"
+                  : "bg-green-500 text-white"
               }`}
             >
               Medio
@@ -289,8 +310,8 @@ export default function Buscaminas() {
               onClick={() => setDifficulty("dificil")}
               className={`py-3 px-4 rounded-xl font-bold transition-all ${
                 difficulty === "dificil"
-                  ? "bg-red-500 text-white shadow-lg scale-105"
-                  : "bg-white/20 text-white hover:bg-white/30"
+                  ? "bg-blue-500 text-white shadow-lg scale-105"
+                  : "bg-green-600 text-white"
               }`}
             >
               Difícil
@@ -299,18 +320,18 @@ export default function Buscaminas() {
             </button>
           </div>
 
-          <div className="flex justify-between items-center text-white">
-            <div className="bg-black/30 px-6 py-3 rounded-xl">
+          <div className="flex justify-center items-center text-white gap-8">
+            <div className="bg-black/30 px-6 py-3 rounded-xl ">
               <span className="text-2xl font-bold">
                 🚩 {flagCount}/{config.mines}
               </span>
             </div>
-            <button
+            {/* <button
               onClick={initializeBoard}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg active:scale-95"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3  px-8 rounded-xl transition-all shadow-lg active:scale-95"
             >
               {gameOver || gameWon ? "Nuevo Juego" : "Reiniciar"}
-            </button>
+            </button> */}
             <div className="bg-black/30 px-6 py-3 rounded-xl">
               <span className="text-2xl font-bold">
                 ⏱️ {formatTime(timeElapsed)}
@@ -318,11 +339,19 @@ export default function Buscaminas() {
             </div>
           </div>
         </div>
+        <div className="bg-black/30 px-6 py-3 rounded-xl flex">
+          <button
+            onClick={initializeBoard}
+            className="bg-blue-500 margin:0 text-center hover:bg-blue-600 text-white font-bold py-3  px-8 rounded-xl transition-all shadow-lg active:scale-95"
+          >
+            {gameOver || gameWon ? "Nuevo Juego" : "Reiniciar"}
+          </button>
+        </div>
 
         {/* Game Status */}
         {(gameOver || gameWon) && (
           <div
-            className={`text-center mb-6 p-6 rounded-2xl font-bold text-2xl ${
+            className={`text-center mb-6 mt-3 p-6 rounded-2xl font-bold text-2xl ${
               gameWon ? "bg-green-500 text-white" : "bg-red-500 text-white"
             }`}
           >
@@ -365,14 +394,32 @@ export default function Buscaminas() {
           </div>
         </div>
 
-        {/* Instructions */}
-        <div className="mt-6 bg-white/10 backdrop-blur-sm rounded-xl p-4 text-white text-center">
-          <p className="text-sm">
-            <strong>Cómo jugar:</strong> Click izquierdo para revelar. Click
-            derecho para marcar con bandera 🚩. Evita las minas 💣 y revela
-            todas las casillas seguras para ganar.
-          </p>
-        </div>
+        <footer
+          style={{
+            textAlign: "center",
+            padding: "2rem",
+            opacity: 0.9,
+            fontSize: "1rem",
+            color: "#000",
+          }}
+        >
+          <p>Creado a las 3 AM cuando el café ya no hacía efecto ☕💻</p>
+
+          <Link href="https://chilehub.cl">
+            <Image
+              src="/chilehub.png"
+              alt="Logo de Sopa de Letras"
+              width={200}
+              height={80}
+              style={{
+                width: "200px",
+                height: "80px",
+                objectFit: "contain",
+                margin: "1rem auto",
+              }}
+            />
+          </Link>
+        </footer>
       </div>
     </div>
   );
